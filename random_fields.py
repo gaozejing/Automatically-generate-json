@@ -74,7 +74,6 @@ def get_idnum():
     id_num+=num
     # 通过性别判断生成第十七位数字 男单 女双
     s = get_sex()
-    print("性别:",s)
     if s =='男':
         # 生成奇数
         seventeen_num = random.randrange(1,9,2)
@@ -118,5 +117,14 @@ def get_birthday():
     birthday = str(year)+str(month)+str(day)
     return birthday
 
-# 匿名函数性别
-get_sex = lambda :random.choice(['男','女'])
+# 性别
+def get_sex():
+    return random.choice(['男','女'])
+
+#学历
+def get_education():
+    return  random.choice(['无学历','小学','初中','高中','中专','大专','本科','研究生','硕士','博士'])
+
+#婚姻情况
+def get_marriage():
+    return random.choice(['已婚','未婚','单身','离异','丧偶'])

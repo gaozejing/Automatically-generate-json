@@ -18,5 +18,5 @@ def create_json(count:int):
             f.write("}\n")
 
 if __name__ == '__main__':
-    create_json(2)
+    create_json(WD.count)
 
