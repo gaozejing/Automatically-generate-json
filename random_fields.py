@@ -1,7 +1,7 @@
 import random_string as RS
 import random
 from utils.langconv import Converter
-from list_data import province_id,first_name,gender,education,marriage
+from list_data import province_id,first_name,gender,education,marriage,phone_number_third
 import socket
 import struct
 
@@ -21,7 +21,7 @@ def get_phone_number():
     '''
     随机生成手机号
     '''
-    return '1'+ RS.num_string(10)
+    return random.choice(phone_number_third) + RS.num_string(8)
 
 def get_Chinese_name():
     '''
@@ -140,3 +140,8 @@ def get_ip():
     ip_addr_min = ip_addr & (mask & 0xffffffff)
     ip_addr_max = ip_addr | (~mask & 0xffffffff)
     return socket.inet_ntoa(struct.pack('>I', random.randint(ip_addr_min, ip_addr_max)))
+
+
+if __name__ == '__main__':
+    for i in range(10):
+        print(get_phone_number())
