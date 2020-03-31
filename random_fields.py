@@ -1,37 +1,34 @@
 import random_string as RS
 import random
-import firstname
-from langconv import Converter
-from province_id import province_id
+from utils.langconv import Converter
+from list_data import province_id,first_name,gender,education,marriage
+import socket
+import struct
 
-def age():
+def get_age():
     '''
     随机生成0-100的年龄
-    :return:
     '''
     return random.randint(0,100)
 
-def Eglish_name():
+def get_Eglish_name():
     '''
     随机生成英文名
-    :return:
     '''
     return RS.letter_string_capital(1)+RS.letter_string_lowercase(random.randint(2,10))
 
-def phone_number():
+def get_phone_number():
     '''
     随机生成手机号
-    :return:
     '''
     return '1'+ RS.num_string(10)
 
-def Chinese_name():
+def get_Chinese_name():
     '''
     随机生成中文名
-    :return:
     '''
     name_code = ''
-    name_code+=random.choice(firstname.first_name)
+    name_code+=random.choice(first_name)
     ran_num = random.randint(0,1)
     # 为0生成的名字是两个字,为1生成的名字是一个字
     if ran_num ==0:
@@ -56,22 +53,16 @@ def Chinese_name():
 def get_idnum():
     '''
     随机生成身份证号
-    :return:
     '''
     id_num = ''
     # 随机选择地址码
-    id_num+=str(random.choice(province_id))
+    id_num += str(random.choice(province_id))
     # 随机生成4-6位地址码
-    for i in range(4):
-        ran_num = str(random.randint(0,9))
-        id_num+=ran_num
-    b = get_birthday()
-    id_num+=b
+    id_num += RS.num_string(4)
+    #生成生日码
+    id_num += get_birthday()
     # 生成15、16位顺序号
-    num = ''
-    for i in range(2):
-        num += str(random.randint(0,9))
-    id_num+=num
+    id_num += RS.num_string(2)
     # 通过性别判断生成第十七位数字 男单 女双
     s = get_sex()
     if s =='男':
@@ -88,11 +79,9 @@ def get_idnum():
 
 def get_birthday():
     '''
-    随机生成出售日期
-    :return:
+    随机生成出生日期
     '''
-    # 随机生成年月日
-    year = random.randint(1960,2000)
+    year = random.randint(1920,2020)
     month = random.randint(1,12)
     # 判断每个月有多少天随机生成日
     if year%4 ==0:
@@ -119,12 +108,35 @@ def get_birthday():
 
 # 性别
 def get_sex():
-    return random.choice(['男','女'])
+    return random.choice(gender)
 
 #学历
 def get_education():
-    return  random.choice(['无学历','小学','初中','高中','中专','大专','本科','研究生','硕士','博士'])
+    return  random.choice(education)
 
 #婚姻情况
 def get_marriage():
-    return random.choice(['已婚','未婚','单身','离异','丧偶'])
+    return random.choice(marriage)
+
+def get_email():
+    '''
+    随机生成邮箱
+    '''
+    email = ''
+    return email + RS.letter_string_case_insensitive(5) + '@' + RS.num_string(3) + '.com'
+
+RANDOM_IP_POOL=['192.168.10.222/0']
+def get_ip():
+    '''
+    随机生成ip地址
+    '''
+    str_ip = RANDOM_IP_POOL[random.randint(0, len(RANDOM_IP_POOL) - 1)]
+    str_ip_addr = str_ip.split('/')[0]
+    str_ip_mask = str_ip.split('/')[1]
+    ip_addr = struct.unpack('>I',socket.inet_aton(str_ip_addr))[0]
+    mask = 0x0
+    for i in range(31, 31 - int(str_ip_mask), -1):
+        mask = mask | ( 1 << i)
+    ip_addr_min = ip_addr & (mask & 0xffffffff)
+    ip_addr_max = ip_addr | (~mask & 0xffffffff)
+    return socket.inet_ntoa(struct.pack('>I', random.randint(ip_addr_min, ip_addr_max)))

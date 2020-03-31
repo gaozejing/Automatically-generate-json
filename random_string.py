@@ -51,5 +51,20 @@ def letter_string_capital(count:int):
         letter_str += letter
     return letter_str
 
+def letter_and_number(count:int):
+    '''
+    大小写字母+数字
+    :param count:
+    '''
+    H = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
+    lan_str = ''
+    for i in range(0,count):
+        lan = random.choice(H)
+        lan_str += lan
+    return lan_str
+
+def bool():
+    return random.choice(['true','false'])
+
 if __name__ == '__main__':
     print((3))
