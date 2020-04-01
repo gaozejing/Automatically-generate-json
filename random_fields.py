@@ -1,7 +1,7 @@
 import random_string as RS
 import random
 from utils.langconv import Converter
-from list_data import province_id,first_name,gender,education,marriage,phone_number_third
+from list_data import province_id,first_name,gender,education,marriage,phone_number_third,valid_id_card
 import socket
 import struct
 
@@ -77,6 +77,13 @@ def get_idnum():
     id_num+=eighteen_num
     return id_num
 
+def get_valid_id_card():
+    '''
+    有效身份证随机
+    :return:
+    '''
+    return random.choice(valid_id_card)
+
 def get_birthday():
     '''
     随机生成出生日期
@@ -112,7 +119,7 @@ def get_sex():
 
 #学历
 def get_education():
-    return  random.choice(education)
+    return random.choice(education)
 
 #婚姻情况
 def get_marriage():
